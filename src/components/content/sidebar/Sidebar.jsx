@@ -4,7 +4,7 @@ import { RiCompass3Line } from "react-icons/ri";
 import { HiOutlineBookmark } from "react-icons/hi";
 const Sidebar = () => {
   return (
-    <section className="bg-white h-screen shadow-md w-72 flex flex-col justify-between ">
+    <div className="bg-white h-screen shadow-md w-72 flex flex-col justify-between ">
       <div className="text-lg font-medium capitalize py-8">
         {/* Home Icon */}
         <a href="#" className="flex items-center py-4 px-6  text-pink-400">
@@ -26,7 +26,8 @@ const Sidebar = () => {
           <span className="px-3">saved</span>
         </a>
       </div>
-    </section>
+      <div className="mb-4">Additional content or footer</div>
+    </div>
   );
 };
 

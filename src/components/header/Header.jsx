@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { FiHome } from "react-icons/fi";
 import { HiOutlinePencilAlt } from "react-icons/hi";
 import { RxDashboard } from "react-icons/rx";
@@ -33,9 +34,9 @@ const Header = () => {
           <a href="# " className="mx-4">
             <FaRegBell />
           </a>
-          <a href="#" className="font-semibold ml-4">
+          <Link to="/signin" className="font-semibold ml-4">
             <FaRegUserCircle />
-          </a>
+          </Link>
         </div>
       </div>
     </nav>
