@@ -1,14 +1,15 @@
-import Sidebar from "../content/sidebar/Sidebar";
-import MiddleBar from "../content/middlebar/MiddleBar";
 import Header from "../header/Header";
+import MiddleBar from "../content/MiddleBar";
+import RightBar from "../content/RightBar";
 export default function MainContent() {
   return (
     <>
       <Header />
-      <section className="flex py-16">
-        <Sidebar />
+
+      <main className="flex sm:flex-row flex-col sm:ml-[20rem] ml-0 m-auto ">
         <MiddleBar />
-      </section>
+        <RightBar />
+      </main>
     </>
   );
 }

@@ -1,10 +1,9 @@
-import SignInForm from "./components/Login/SignInForm";
-import SignUpForm from "./components/Login/SignUpForm";
+import SignInForm from "./components/userAuth/SignInForm";
+import SignUpForm from "./components/userAuth/SignUpForm";
 import MainContent from "./components/MainLayout/MainContent";
 import { Routes, Route } from "react-router-dom";
-import config from "./config/config";
+
 function App() {
-  console.log(config.AppWriteBucketId);
   return (
     <>
       <Routes>
@@ -13,7 +12,7 @@ function App() {
       </Routes>
 
       <Routes>
-        <Route index element={<MainContent />} />
+        <Route path="/" element={<MainContent />} />
       </Routes>
     </>
   );
