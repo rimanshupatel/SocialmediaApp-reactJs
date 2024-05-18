@@ -4,8 +4,20 @@ import { RiCompass3Line } from "react-icons/ri";
 import { HiOutlineBookmark } from "react-icons/hi";
 import { IoExitOutline } from "react-icons/io5";
 import { FaRegBell } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { account } from "../../AppWrite/auth";
+
 const Sidebar = () => {
+  const navigate = useNavigate();
+  const LogOut = () => {
+    account
+      .deleteSession("current")
+      .then((res) => {
+        navigate("/signin");
+        console.log(res);
+      })
+      .catch((err) => console.log(err));
+  };
   return (
     <header className="bg-white h-screen py-8 px-6 fixed shadow-md sm:w-72 w-56 flex flex-col justify-between">
       <div>
@@ -41,7 +53,10 @@ const Sidebar = () => {
       </div>
       <div className="mb-4">
         <div className=" text-xl">
-          <Link to="/signin" className="flex items-center font-semibold ml-4">
+          <Link
+            onClick={LogOut}
+            className="flex items-center font-semibold ml-4"
+          >
             <IoExitOutline />
             <span className="ml-2">logout</span>
           </Link>

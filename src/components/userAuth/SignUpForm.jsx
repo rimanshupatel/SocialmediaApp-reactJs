@@ -1,22 +1,22 @@
 import { useState } from "react";
 import { account, id } from "../../AppWrite/auth";
-
+import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
 const SignUpForm = () => {
-  const navigate = useNavigate();
   const [userData, SetuserData] = useState({
     name: "",
     email: "",
     password: "",
   });
+  const navigate = useNavigate();
   let SignUp = async () => {
     await account
       .create(id, userData.email, userData.password, userData.name)
       .then(
         function (res) {
           console.log(res);
-          navigate("/signin");
+          navigate("/");
         },
         function (err) {
           console.log(err);
@@ -24,9 +24,9 @@ const SignUpForm = () => {
       );
   };
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md ">
-        <h2 className="text-2xl font-bold mb-6 text-center">Sign Up</h2>
+    <div className="min-h-screen flex items-center justify-center bg-gray-100 backgroundCover">
+      <div className="bg-white sm:max-w-sm  max-w-xs w-full p-8 rounded-lg shadow-md  ">
+        <h2 className="text-3xl font-bold mb-6 text-center">Sign Up</h2>
         <form className="space-y-4" onSubmit={(e) => e.preventDefault()}>
           <div></div>
           <div>
@@ -92,6 +92,12 @@ const SignUpForm = () => {
             </button>
           </div>
         </form>
+        <div className="mt-4 text-center sm:text-md text-sm capitalize">
+          already have an account?
+          <Link to={"/signin"} className="text-indigo-600 underline m-2">
+            sign in
+          </Link>
+        </div>
       </div>
     </div>
   );
