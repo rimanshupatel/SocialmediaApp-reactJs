@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { account, id } from "../../AppWrite/auth";
+import authService from "../../AppWrite/auth";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
@@ -11,17 +11,15 @@ const SignUpForm = () => {
   });
   const navigate = useNavigate();
   let SignUp = async () => {
-    await account
-      .create(id, userData.email, userData.password, userData.name)
-      .then(
-        function (res) {
-          console.log(res);
-          navigate("/");
-        },
-        function (err) {
-          console.log(err);
-        }
-      );
+    authService.signup(userData.email, userData.password, userData.name).then(
+      function (res) {
+        console.log(res);
+        navigate("/");
+      },
+      function (err) {
+        console.log(err);
+      }
+    );
   };
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 backgroundCover">

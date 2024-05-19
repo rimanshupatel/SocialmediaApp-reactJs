@@ -5,19 +5,21 @@ import { HiOutlineBookmark } from "react-icons/hi";
 import { IoExitOutline } from "react-icons/io5";
 import { FaRegBell } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
-import { account } from "../../AppWrite/auth";
-
+import authService from "../../AppWrite/auth";
+import { useDispatch } from "react-redux";
+import { logOut } from "../../App/AuthSlice";
 const Sidebar = () => {
-  const navigate = useNavigate();
-  const LogOut = () => {
-    account
-      .deleteSession("current")
-      .then((res) => {
-        navigate("/signin");
-        console.log(res);
-      })
-      .catch((err) => console.log(err));
+  // const navigate = useNavigate();
+
+  const logoutHandler = () => {
+    const dispatch = useDispatch();
+    const LogOut = () => {
+      authService.logout().then(() => {
+        dispatch(logOut);
+      });
+    };
   };
+
   return (
     <header className="bg-white h-screen py-8 px-6 fixed shadow-md sm:w-72 w-56 flex flex-col justify-between">
       <div>
@@ -54,7 +56,7 @@ const Sidebar = () => {
       <div className="mb-4">
         <div className=" text-xl">
           <Link
-            onClick={LogOut}
+            onClick={logoutHandler}
             className="flex items-center font-semibold ml-4"
           >
             <IoExitOutline />

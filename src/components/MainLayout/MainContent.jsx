@@ -2,16 +2,15 @@ import Header from "../header/Header";
 import MiddleBar from "../content/MiddleBar";
 import RightBar from "../content/RightBar";
 import { useEffect, useState } from "react";
-import { account } from "../../AppWrite/auth";
+import authService from "../../AppWrite/auth";
 import SignInForm from "../userAuth/SignInForm";
 import { useNavigate } from "react-router-dom";
-import Test from "../content/Test";
+// import { ColorRing } from "react-loader-spinner";
 export default function MainContent() {
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
   useEffect(() => {
-    account
-      .get()
+    authService.getCurrentUser
       .then((res) => {
         navigate("/");
         setUser(res);
@@ -26,7 +25,16 @@ export default function MainContent() {
           <Header />
           <main className="flex sm:flex-row flex-col sm:ml-[20rem] ml-0 m-auto ">
             <MiddleBar />
-            <Test />
+            {/* <ColorRing
+              visible={true}
+              height="80"
+              width="80"
+              ariaLabel="color-ring-loading"
+              wrapperStyle={{}}
+              wrapperClass="color-ring-wrapper"
+              colors={["#333"]}
+            /> */}
+
             <RightBar />
           </main>
         </>

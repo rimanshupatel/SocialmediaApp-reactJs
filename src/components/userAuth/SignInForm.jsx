@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { account } from "../../AppWrite/auth";
+import authService from "../../AppWrite/auth";
 import { useEffect } from "react";
 import MainContent from "../MainLayout/MainContent";
 const SignInForm = () => {
@@ -13,8 +13,8 @@ const SignInForm = () => {
   const navigate = useNavigate();
 
   let userLogin = async () => {
-    const signInData = account
-      .createEmailPasswordSession(userData.email, userData.password)
+    const signInData = authService
+      .signin(userData.email, userData.password)
       .then((res) => {
         navigate("/");
         console.log(res);
@@ -25,8 +25,7 @@ const SignInForm = () => {
   };
 
   useEffect(() => {
-    account
-      .get()
+    authService.getCurrentUser
       .then((res) => {
         navigate("/");
         setUserLoggedIn(res);
