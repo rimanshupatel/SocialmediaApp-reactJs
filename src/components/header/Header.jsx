@@ -8,7 +8,9 @@ import { Link, useNavigate } from "react-router-dom";
 import authService from "../../AppWrite/auth";
 import { useDispatch } from "react-redux";
 import { logOut } from "../../App/AuthSlice";
+import { useSelector } from "react-redux";
 const Sidebar = () => {
+  const authStatus = useSelector((state) => state.auth.status);
   // const navigate = useNavigate();
 
   const logoutHandler = () => {
@@ -20,50 +22,70 @@ const Sidebar = () => {
     };
   };
 
+  const navLinks = [
+    {
+      name: "Home",
+      url: "/home",
+      active: true,
+      icons: <FiHome />,
+    },
+    {
+      name: "create post",
+      url: "/newPost",
+      active: authStatus,
+      icons: <MdOutlineAddPhotoAlternate />,
+    },
+    {
+      name: "Explore",
+      url: "/explore",
+      active: authStatus,
+      icons: <RiCompass3Line />,
+    },
+    {
+      name: "Saved",
+      url: "/saved",
+      active: authStatus,
+      icons: <HiOutlineBookmark />,
+    },
+    {
+      name: "Notifications",
+      url: "/notifications",
+      active: authStatus,
+      icons: <FaRegBell />,
+    },
+  ];
   return (
     <header className="bg-white h-screen py-8 px-6 fixed shadow-md sm:w-72 w-56 flex flex-col justify-between">
       <div>
         <div className="flex items-center">
           <span className="  text-2xl font-bold">Talkie</span>
         </div>
-        <div className="text-lg font-medium capitalize py-8">
-          {/* Home Icon */}
-          <a href="#" className="flex items-center py-4 text-pink-400">
-            <FiHome />
-            <span className="px-3">Home</span>
-          </a>
-          {/* Add Post Icon */}
-          <a href="#" className="flex items-center py-4">
-            <MdOutlineAddPhotoAlternate />
-            <span className="px-3">create post</span>
-          </a>
-          {/* explore Icon */}
-          <a href="#" className="flex items-center py-4">
-            <RiCompass3Line />
-            <span className="px-3">explore</span>
-          </a>
-          <a href="#" className="flex items-center py-4">
-            <HiOutlineBookmark />
-            <span className="px-3">saved</span>
-          </a>
-
-          <a href="# " className="flex items-center py-4">
-            <FaRegBell />
-            <span className="px-3">notifications</span>
-          </a>
-        </div>
       </div>
-      <div className="mb-4">
-        <div className=" text-xl">
-          <Link
-            onClick={logoutHandler}
-            className="flex items-center font-semibold ml-4"
-          >
-            <IoExitOutline />
-            <span className="ml-2">logout</span>
-          </Link>
+      <ul className="text-lg font-medium capitalize py-8">
+        {navLinks.map((links) =>
+          links.active ? (
+            <li key={links.name} className=" py-4">
+              <Link to={links.url} className="flex items-center">
+                {links.icons}
+                <span className="px-3">{links.name}</span>
+              </Link>
+            </li>
+          ) : null
+        )}
+      </ul>
+      {authStatus && (
+        <div className="mb-4">
+          <div className=" text-xl">
+            <Link
+              onClick={logoutHandler}
+              className="flex items-center font-semibold ml-4"
+            >
+              <IoExitOutline />
+              <span className="ml-2">logout</span>
+            </Link>
+          </div>
         </div>
-      </div>
+      )}
     </header>
   );
 };
