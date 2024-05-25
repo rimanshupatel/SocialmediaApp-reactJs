@@ -1,37 +1,56 @@
 import { useState } from "react";
+import { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import authService from "../../AppWrite/auth";
-import { useEffect } from "react";
+import { login as authLogin } from "../../App/AuthSlice";
+import { useForm } from "react-hook-form";
+import { useDispatch } from "react-redux";
+import Button from "../reusable/Button";
 import MainContent from "../MainLayout/MainContent";
+import { BiSolidError } from "react-icons/bi";
 const SignInForm = () => {
   const [userLoggedIn, setUserLoggedIn] = useState(null);
+  const [error, setError] = useState("");
+  const { register, handleSubmit } = useForm();
   const [userData, SetuserData] = useState({
     email: "",
     password: "",
   });
 
   const navigate = useNavigate();
-
-  let userLogin = async () => {
-    const signInData = authService
-      .signin(userData.email, userData.password)
-      .then((res) => {
+  const dispatch = useDispatch();
+  let userLogin = async (data) => {
+    try {
+      const session = await authService.signin(data);
+      if (session) {
+        const user = authService.getCurrentUser();
+        if (user) {
+          dispatch(authLogin(user));
+        }
         navigate("/");
-        console.log(res);
-      })
-      .catch((err) => console.log(err));
+      }
+    } catch (error) {
+      setError(error.message);
+    }
+    // const signInData = authService
+    //   .signin(userData.email, userData.password)
+    //   .then((res) => {
+    //     navigate("/");
+    //     console.log(res);
+    //   })
+    //   .catch((err) => console.log(err));
 
-    console.log(signInData);
+    // console.log(signInData);
   };
 
-  useEffect(() => {
-    authService.getCurrentUser
-      .then((res) => {
-        navigate("/");
-        setUserLoggedIn(res);
-      })
-      .catch((err) => console.log(err));
-  }, [navigate]);
+  // useEffect(() => {
+  //   authService.getCurrentUser
+  //     .then((res) => {
+  //       navigate("/");
+  //       setUserLoggedIn(res);
+  //     })
+  //     .catch((err) => console.log(err));
+  // }, [navigate]);
   // async function login() {
   //   await account.createEmailPasswordSession(userData.email, userData.password);
   //
@@ -45,7 +64,7 @@ const SignInForm = () => {
         <div className="min-h-screen flex items-center justify-center bg-gray-100 backgroundCover">
           <div className="sm:max-w-sm max-w-xs w-full bg-white p-8 rounded-lg shadow-lg absolute">
             <h2 className="text-3xl font-bold text-center mb-6">Sign in</h2>
-            <form onSubmit={(e) => e.preventDefault()}>
+            <form onSubmit={handleSubmit(userLogin)}>
               <div className="mb-4">
                 <label
                   className="block text-gray-700 font-medium  mb-2"
@@ -65,7 +84,7 @@ const SignInForm = () => {
                   }
                 />
               </div>
-              <div className="mb-6">
+              <div className="mb-3">
                 <label
                   className="block text-gray-700 font-medium  mb-2"
                   htmlFor="password"
@@ -84,17 +103,22 @@ const SignInForm = () => {
                   }
                 />
               </div>
-              <button
-                type="submit"
-                className="w-full bg-indigo-600 text-white py-2 px-4 rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:ring-opacity-50"
-                onClick={userLogin}
-              >
+
+              {error && (
+                <p className="text-red-500 my-2 flex items-center">
+                  <span className="mx-2">
+                    <BiSolidError />
+                  </span>
+                  {error}
+                </p>
+              )}
+              <Button type="submit" className="" onClick={userLogin}>
                 Sign In
-              </button>
+              </Button>
             </form>
             <div className="mt-4 text-center capitalize">
-              {` don't have an account?`}
-              <Link to={"/signup"} className="text-indigo-600 underline mx-1">
+              don&apos;t have an account?&nbsp;
+              <Link to={"/signup"} className="text-indigo-600 underline ">
                 sign up
               </Link>
             </div>
